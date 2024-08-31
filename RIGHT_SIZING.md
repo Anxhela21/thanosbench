@@ -30,6 +30,7 @@ This guide provides step-by-step instructions for generating Thanos blocks metri
     ```bash
     make build
     ```
+    If you modify the profile (e.g., changing the time ranges), you must rebuild `thanosbench` by running `make build` again to apply those changes.
 
 3. Run the following script to generate Thanos blocks:
 
@@ -39,7 +40,6 @@ This guide provides step-by-step instructions for generating Thanos blocks metri
 
     **Note:** The profile used for block generation is defined in `pkg/blockgen/profile.go`. By default, the profile `cc-1w-small-rs` is used, which generates one week of data. 
 
-    If you modify the profile (e.g., changing the time ranges), you must rebuild `thanosbench` by running `make build` again to apply those changes.
 
     You can adjust the following parameters directly in the `run_thanosbench.sh` script:
     - Number of clusters
@@ -47,6 +47,9 @@ This guide provides step-by-step instructions for generating Thanos blocks metri
     - Maximum time duration
     - `minGauge` and `maxGauge` values for simulating realistic metric data
     - Profile selection
+
+
+    **Note**: For running in parallel, run `./run_parallel.sh` after adjusting the range settings as desired.
 
 ### 2. Store Data Blocks in S3
 
@@ -56,17 +59,12 @@ This guide provides step-by-step instructions for generating Thanos blocks metri
     aws s3 rm s3://<your-bucket>/<your-sub-folder> --recursive
     ```
 
-2. Copy the newly generated data into the S3 bucket:
+2. Copy the newly generated data into the S3 bucket using the copy_to_s3.sh script:
 
-    ```bash
-    cd month-1
     ```
-
-    ```bash
-    for folder in week-1 week-2 week-3 week-4 week-5; do 
-        aws s3 cp $folder s3://<your-bucket>/<your-sub-folder> --recursive
-    done
-    ```
+    ./copy_to_s3.sh
+    ````
+    **Note**: add the script inside same folder where data is stored.
 
 ### 3. Replace Thanos Store Instance with S3 Bucket
 
