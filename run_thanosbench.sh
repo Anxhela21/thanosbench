@@ -10,8 +10,7 @@ end=$(printf "%d" "$end")
 
 # Constants
 NUM_NAMESPACES=200
-MAX_TIMES=("2024-06-07T00:00:00Z" "2024-06-14T00:00:00Z" "2024-06-28T00:00:00Z", "2024-07-05T00:00:00Z")
-
+MAX_TIMES=("2024-08-21T00:00:00Z")
 # Function to generate a random number in the given range
 random_in_range() {
   local min=$1
@@ -22,7 +21,7 @@ random_in_range() {
 # Loop through clusters and namespaces to generate blocks
 for ((cluster = start; cluster <= end; cluster++)); do
     for i in "${!MAX_TIMES[@]}"; do
-      PROFILE="cc-1w-small-rs"
+      PROFILE="custom-continous-1-week"
       MAX_TIME=${MAX_TIMES[$i]}
       
       MIN_GAUGE=$(random_in_range 2.1 4.6)

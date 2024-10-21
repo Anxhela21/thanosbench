@@ -5,9 +5,9 @@
 # ex: (1,10), (11,21), ..., (290, 300)
 generate_ranges() {
     local start=1
-    local end=300
+    local end=5
     local step=10
-    local max=300
+    local max=5
     
     while [ $end -le $max ]; do
         echo "$start,$end"
