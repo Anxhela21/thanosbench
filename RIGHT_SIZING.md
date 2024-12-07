@@ -38,8 +38,22 @@ This guide provides step-by-step instructions for generating Thanos blocks metri
     ./run_thanosbench.sh
     ```
 
-    **Note:** The profile used for block generation is defined in `pkg/blockgen/profile.go`. By default, the profile `cc-1w-small-rs` is used, which generates one week of data. 
+    **Note:** The profile used for block generation is defined in `pkg/blockgen/profile.go`. By default, the profile `cc-1w-small-rs` is used, which generates one week of data. To change the profile to use more than one week of data, change the profile to include more time durations which add up to the desired length of time. Example for what profile could look like for 30 days of data:
 
+        "continuous-30d-tiny": continuous([]time.Duration{
+			// 30 days, from newest to oldest.
+			2 * time.Hour,
+			2 * time.Hour,
+			2 * time.Hour,
+			8 * time.Hour,
+			176 * time.Hour,
+			176 * time.Hour,
+			176 * time.Hour,
+			176 * time.Hour,
+			2 * time.Hour,
+		}, 1, 5),
+
+    The above adds up to 720 hours which is exactly 30 days. Note that the newest data is represented with smaller time duration.
 
     You can adjust the following parameters directly in the `run_thanosbench.sh` script:
     - Number of clusters
@@ -47,7 +61,6 @@ This guide provides step-by-step instructions for generating Thanos blocks metri
     - Maximum time duration
     - `minGauge` and `maxGauge` values for simulating realistic metric data
     - Profile selection
-
 
     **Note**: For running in parallel, run `./run_parallel.sh` after adjusting the range settings as desired.
 
